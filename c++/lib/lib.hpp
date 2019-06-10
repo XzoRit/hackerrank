@@ -1,24 +1,38 @@
 #include <cmath>
-#include <vector>
+#include <type_traits>
 
 namespace xzr
 {
 namespace lib
 {
+namespace impl
+{
+const auto sum_diagonal =
+  [](const auto& matrix, auto start_index, auto next_index) {
+    using size_type = typename std::decay_t<decltype(matrix)>::size_type;
+    using value_type = std::decay_t<decltype(matrix[size_type{}][size_type{}])>;
+    value_type sum{};
+    for (size_type a{}, b{ start_index }; a < matrix.size(); ++a, next_index(b))
+    {
+      sum += matrix[a][b];
+    }
+    return sum;
+  };
+const auto inc = [](auto& a) mutable { ++a; };
+const auto dec = [](auto& a) mutable { --a; };
+const auto sum_diagonal_left_to_right = [](const auto& matrix) {
+  return sum_diagonal(matrix, 0u, inc);
+};
+const auto sum_diagonal_right_to_left = [](const auto& matrix) {
+  return sum_diagonal(matrix, matrix.size() - 1, dec);
+};
+}
 inline namespace v1
 {
-const auto diagonal_difference = [](std::vector<std::vector<int>> arr) {
-  int sum1{};
-  for (std::size_t a{}, b{}; a < arr.size(); ++a, ++b)
-  {
-    sum1 += arr[a][b];
-  }
-  int sum2{};
-  for (std::size_t a{}, b{ arr.size() - 1 }; a < arr.size(); ++a, --b)
-  {
-    sum2 += arr[a][b];
-  }
-  return std::abs(sum1 - sum2);
+const auto diagonal_difference = [](const auto& matrix) {
+  return std::abs(
+    impl::sum_diagonal_left_to_right(matrix) -
+    impl::sum_diagonal_right_to_left(matrix));
 };
 }
 }
