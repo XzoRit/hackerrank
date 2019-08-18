@@ -25,9 +25,27 @@ BOOST_AUTO_TEST_CASE(test_staircase)
 {
   using namespace xzr::lib;
   {
-      BOOST_TEST(staircase(0) == "");
-      BOOST_TEST(staircase(1) == "#\n");
-      BOOST_TEST(staircase(2) == " #\n##\n");
-      BOOST_TEST(staircase(3) == "  #\n ##\n###\n");
+    BOOST_TEST(staircase(0) == "");
+    BOOST_TEST(staircase(1) == "#\n");
+    BOOST_TEST(staircase(2) == " #\n##\n");
+    BOOST_TEST(staircase(3) == "  #\n ##\n###\n");
+  }
+}
+
+BOOST_AUTO_TEST_CASE(test_mini_max_sum)
+{
+  using namespace xzr::lib;
+  {
+    BOOST_TEST(mini_max_sum({ 1, 2, 3, 4, 5 }).first == 10);
+    BOOST_TEST(mini_max_sum({ 1, 2, 3, 4, 5 }).second == 14);
+  }
+  {
+    // results can be bigger than int-max
+    BOOST_TEST(
+      mini_max_sum({ 256741038, 623958417, 467905213, 714532089, 938071625 })
+        .first == 2063136757);
+    BOOST_TEST(
+      mini_max_sum({ 256741038, 623958417, 467905213, 714532089, 938071625 })
+        .second == 2744467344);
   }
 }

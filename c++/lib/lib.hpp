@@ -4,6 +4,7 @@
 #include <numeric>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 namespace xzr
@@ -43,14 +44,16 @@ const auto staircase = [](auto steps) {
   std::vector<int> v(steps);
   std::iota(begin(v), end(v), 1);
   return std::accumulate(
-    begin(v),
-    end(v),
-    std::string{},
-    [steps](const auto& a, const auto& stair) {
-        const std::string space_chars(steps - stair, ' ');
-        const std::string stair_chars(stair, '#');
-        return a + space_chars + stair_chars + '\n';
+    begin(v), end(v), std::string{}, [steps](const auto& a, const auto& stair) {
+      const std::string space_chars(steps - stair, ' ');
+      const std::string stair_chars(stair, '#');
+      return a + space_chars + stair_chars + '\n';
     });
+};
+const auto mini_max_sum = [](std::vector<int> nums) {
+  const auto& sum{std::accumulate(begin(nums), end(nums), std::int64_t{})};
+  const auto& min_max{ std::minmax_element(begin(nums), end(nums)) };
+  return std::make_pair(sum - *min_max.second, sum - *min_max.first);
 };
 }
 }
