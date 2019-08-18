@@ -1,5 +1,6 @@
 #include <boost/test/unit_test.hpp>
 #include <lib/lib.hpp>
+#include <vector>
 
 BOOST_AUTO_TEST_CASE(test_diagonal_difference)
 {
@@ -17,5 +18,16 @@ BOOST_AUTO_TEST_CASE(test_diagonal_difference)
                                              { 4, 5, 6 },
                                              { 10, 8, -12 } };
     BOOST_TEST(diagonal_difference(arr) == 15);
+  }
+}
+
+BOOST_AUTO_TEST_CASE(test_staircase)
+{
+  using namespace xzr::lib;
+  {
+      BOOST_TEST(staircase(0) == "");
+      BOOST_TEST(staircase(1) == "#\n");
+      BOOST_TEST(staircase(2) == " #\n##\n");
+      BOOST_TEST(staircase(3) == "  #\n ##\n###\n");
   }
 }

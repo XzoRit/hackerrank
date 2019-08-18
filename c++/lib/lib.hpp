@@ -1,5 +1,10 @@
+#include <algorithm>
 #include <cmath>
+#include <iterator>
+#include <numeric>
+#include <string>
 #include <type_traits>
+#include <vector>
 
 namespace xzr
 {
@@ -33,6 +38,19 @@ const auto diagonal_difference = [](const auto& matrix) {
   return std::abs(
     impl::sum_diagonal_left_to_right(matrix) -
     impl::sum_diagonal_right_to_left(matrix));
+};
+const auto staircase = [](auto steps) {
+  std::vector<int> v(steps);
+  std::iota(begin(v), end(v), 1);
+  return std::accumulate(
+    begin(v),
+    end(v),
+    std::string{},
+    [steps](const auto& a, const auto& stair) {
+        const std::string space_chars(steps - stair, ' ');
+        const std::string stair_chars(stair, '#');
+        return a + space_chars + stair_chars + '\n';
+    });
 };
 }
 }
