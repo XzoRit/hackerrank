@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(
-  lib
-  VERSION 0.0
-  DESCRIPTION "enter description here")
-
 add_library(
   lib_obj OBJECT)
 target_sources(
