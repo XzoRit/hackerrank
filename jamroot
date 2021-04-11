@@ -1,4 +1,5 @@
 project app_project
+    : build-dir build_boost
     ;
 
 build-project app
