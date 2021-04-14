@@ -52,6 +52,7 @@ target_link_libraries(
   lib_test
   PRIVATE
     lib::lib
+    Boost::boost
     Boost::unit_test_framework
 )
 

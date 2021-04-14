@@ -1,9 +1,27 @@
 #include <lib/lib.hpp>
 
+#include <boost/mp11.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include <array>
+#include <ostream>
 #include <vector>
+
+namespace std
+{
+template<class... T>
+ostream& operator<<(ostream& o, const tuple<T...>& tp)
+{
+  using boost::mp11::mp_for_each;
+  using boost::mp11::mp_iota_c;
+
+  constexpr size_t N = sizeof...(T);
+
+  mp_for_each<mp_iota_c<N>>([&](auto I) { o << std::get<I>(tp) << ' '; });
+
+  return o;
+}
+}
 
 BOOST_AUTO_TEST_CASE(test_diagonal_difference)
 {
@@ -56,17 +74,11 @@ BOOST_AUTO_TEST_CASE(test_mini_max_sum)
 BOOST_AUTO_TEST_CASE(test_plus_minus)
 {
   using namespace xzr::lib;
+  BOOST_TEST(plus_minus(std::array<int, 0>{}) == std::make_tuple(0., 0., 0.));
+  BOOST_TEST(plus_minus(std::array{ 1, 1 }) == std::make_tuple(1., 0., 0.));
   BOOST_TEST(
-    plus_minus({}) == (std::array{ 0., 0., 0. }),
-    boost::test_tools::per_element());
+    plus_minus(std::array{ 1, 1, -1, -1 }) == std::make_tuple(.5, .5, 0.));
   BOOST_TEST(
-    plus_minus({ 1, 1 }) == (std::array{ 1., 0., 0. }),
-    boost::test_tools::per_element());
-  BOOST_TEST(
-    plus_minus({ 1, 1, -1, -1 }) == (std::array{ .5, .5, 0. }),
-    boost::test_tools::per_element());
-  BOOST_TEST(
-    plus_minus({ 1, 1, 1, -1, -1, -1, 0, 0, 0 }) ==
-      (std::array{ 3 / 9., 3 / 9., 3 / 9. }),
-    boost::test_tools::per_element());
+    plus_minus(std::array{ 1, 1, 1, -1, -1, -1, 0, 0, 0 }) ==
+    std::make_tuple(3 / 9., 3 / 9., 3 / 9.));
 }

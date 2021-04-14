@@ -36,5 +36,6 @@ run $(test_sources)
     :
     : <library>lib
       <library>/boost//unit_test_framework
+      <use>/boost//headers
     : test
     ;
