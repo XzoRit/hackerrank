@@ -1,5 +1,8 @@
-#include <boost/test/unit_test.hpp>
 #include <lib/lib.hpp>
+
+#include <boost/test/unit_test.hpp>
+
+#include <array>
 #include <vector>
 
 BOOST_AUTO_TEST_CASE(test_diagonal_difference)
@@ -48,4 +51,22 @@ BOOST_AUTO_TEST_CASE(test_mini_max_sum)
       mini_max_sum({ 256741038, 623958417, 467905213, 714532089, 938071625 })
         .second == 2744467344);
   }
+}
+
+BOOST_AUTO_TEST_CASE(test_plus_minus)
+{
+  using namespace xzr::lib;
+  BOOST_TEST(
+    plus_minus({}) == (std::array{ 0., 0., 0. }),
+    boost::test_tools::per_element());
+  BOOST_TEST(
+    plus_minus({ 1, 1 }) == (std::array{ 1., 0., 0. }),
+    boost::test_tools::per_element());
+  BOOST_TEST(
+    plus_minus({ 1, 1, -1, -1 }) == (std::array{ .5, .5, 0. }),
+    boost::test_tools::per_element());
+  BOOST_TEST(
+    plus_minus({ 1, 1, 1, -1, -1, -1, 0, 0, 0 }) ==
+      (std::array{ 3 / 9., 3 / 9., 3 / 9. }),
+    boost::test_tools::per_element());
 }
