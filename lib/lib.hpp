@@ -95,15 +95,13 @@ inline const auto mini_max_sum = [](std::vector<int> nums) {
   const auto& min_max{ std::minmax_element(begin(nums), end(nums)) };
   return std::make_pair(sum - *min_max.second, sum - *min_max.first);
 };
+inline const auto pos = [](auto&& a) { return a > 0; };
+inline const auto neg = [](auto&& a) { return a < 0; };
+inline const auto eq_0 = [](auto&& a) { return a == 0; };
 inline const auto plus_minus = [](std::vector<int> nums) {
   const double size{ static_cast<double>(nums.size()) };
   if (size == 0) return std::vector{ 0., 0., 0. };
-  const auto& counts{ impl::count_all(
-    nums,
-    std::make_tuple(
-      [](auto&& a) { return a > 0; },
-      [](auto&& a) { return a < 0; },
-      [](auto&& a) { return a == 0; })) };
+  const auto& counts{ impl::count_all(nums, std::make_tuple(pos, neg, eq_0)) };
   return std::vector{ std::get<0>(counts) / size,
                       std::get<1>(counts) / size,
                       std::get<2>(counts) / size };
