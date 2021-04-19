@@ -184,6 +184,22 @@ inline std::string time_conversion(std::string am_pm)
 
     return oss.str();
 }
+
+template <bool... digits>
+inline constexpr int reversed_binary_value() noexcept
+{
+    constexpr std::array<bool, sizeof...(digits)> ds{{digits...}};
+
+    return std::accumulate(ds.begin(),
+                           ds.end(),
+                           std::pair<int, int>{0, 1},
+                           [](auto a, auto b) {
+                               a.first += b * a.second;
+                               a.second *= 2;
+                               return a;
+                           })
+        .first;
+}
 } // namespace v1
 } // namespace lib
 } // namespace xzr

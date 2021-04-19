@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <array>
+#include <libs/test/include/boost/test/unit_test_suite.hpp>
 #include <ostream>
 #include <vector>
 
@@ -23,9 +24,12 @@ ostream& operator<<(ostream& o, const tuple<T...>& tp)
 }
 } // namespace std
 
+namespace
+{
+using namespace xzr::lib;
+
 BOOST_AUTO_TEST_CASE(test_diagonal_difference)
 {
-    using namespace xzr::lib;
     {
         const std::vector<std::vector<int>> arr{{1, 0}, {0, 1}};
         BOOST_TEST(diagonal_difference(arr) == 2);
@@ -42,18 +46,14 @@ BOOST_AUTO_TEST_CASE(test_diagonal_difference)
 
 BOOST_AUTO_TEST_CASE(test_staircase)
 {
-    using namespace xzr::lib;
-    {
-        BOOST_TEST(staircase(0) == "");
-        BOOST_TEST(staircase(1) == "#\n");
-        BOOST_TEST(staircase(2) == " #\n##\n");
-        BOOST_TEST(staircase(3) == "  #\n ##\n###\n");
-    }
+    BOOST_TEST(staircase(0) == "");
+    BOOST_TEST(staircase(1) == "#\n");
+    BOOST_TEST(staircase(2) == " #\n##\n");
+    BOOST_TEST(staircase(3) == "  #\n ##\n###\n");
 }
 
 BOOST_AUTO_TEST_CASE(test_mini_max_sum)
 {
-    using namespace xzr::lib;
     {
         BOOST_TEST(mini_max_sum({1, 2, 3, 4, 5}).first == 10);
         BOOST_TEST(mini_max_sum({1, 2, 3, 4, 5}).second == 14);
@@ -67,7 +67,6 @@ BOOST_AUTO_TEST_CASE(test_mini_max_sum)
 
 BOOST_AUTO_TEST_CASE(test_plus_minus)
 {
-    using namespace xzr::lib;
     BOOST_TEST(plus_minus(std::array<int, 0>{}) == std::make_tuple(0., 0., 0.));
     BOOST_TEST(plus_minus(std::array{1, 1}) == std::make_tuple(1., 0., 0.));
     BOOST_TEST(plus_minus(std::array{1, 1, -1, -1}) == std::make_tuple(.5, .5, 0.));
@@ -76,13 +75,26 @@ BOOST_AUTO_TEST_CASE(test_plus_minus)
 
 BOOST_AUTO_TEST_CASE(test_time_conversion)
 {
-    using namespace xzr::lib;
-    BOOST_TEST(xzr::lib::time_conversion("07:05:45AM") == "07:05:45");
-    BOOST_TEST(xzr::lib::time_conversion("07:05:45PM") == "19:05:45");
+    BOOST_TEST(time_conversion("07:05:45AM") == "07:05:45");
+    BOOST_TEST(time_conversion("07:05:45PM") == "19:05:45");
 
-    BOOST_TEST(xzr::lib::time_conversion("12:00:00PM") == "12:00:00");
-    BOOST_TEST(xzr::lib::time_conversion("12:00:00AM") == "00:00:00");
+    BOOST_TEST(time_conversion("12:00:00PM") == "12:00:00");
+    BOOST_TEST(time_conversion("12:00:00AM") == "00:00:00");
 
-    BOOST_TEST(xzr::lib::time_conversion("12:00:01PM") == "12:00:01");
-    BOOST_TEST(xzr::lib::time_conversion("12:00:01AM") == "00:00:01");
+    BOOST_TEST(time_conversion("12:00:01PM") == "12:00:01");
+    BOOST_TEST(time_conversion("12:00:01AM") == "00:00:01");
 }
+
+BOOST_AUTO_TEST_CASE(test_cpp_variadic)
+{
+    BOOST_TEST((reversed_binary_value<0>()) == 0);
+    BOOST_TEST((reversed_binary_value<1>()) == 1);
+    BOOST_TEST((reversed_binary_value<1, 0>()) == 1);
+    BOOST_TEST((reversed_binary_value<1, 0, 0>()) == 1);
+    BOOST_TEST((reversed_binary_value<0, 1>()) == 2);
+    BOOST_TEST((reversed_binary_value<1, 1>()) == 3);
+    BOOST_TEST((reversed_binary_value<0, 0, 1>()) == 4);
+
+    static_assert(reversed_binary_value<0, 0, 1>() == 4);
+}
+} // namespace
