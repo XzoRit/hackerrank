@@ -1,1 +1,11 @@
+/.*
 /build*/**
+clj/hackerrank/target
+clj/hackerrank/classes
+clj/hackerrank/checkouts
+clj/hackerrank/pom.xml
+clj/hackerrank/pom.xml.asc
+clj/hackerrank/*.jar
+clj/hackerrank/*.class
+clj/hackerrank/.lein-*
+clj/hackerrank/.nrepl-port
