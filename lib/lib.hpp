@@ -63,7 +63,7 @@ template <class T, std::size_t N>
 using tuple_repeat_c = mp_repeat_c<std::tuple<T>, N>;
 
 template <std::size_t N, class F>
-inline constexpr F for_each_index(F&& f)
+inline constexpr F for_each_index_up_to(F&& f)
 {
     return mp_for_each<mp_iota_c<N>>(std::forward<F>(f));
 }
@@ -78,7 +78,7 @@ inline auto count_all(Iter b, Sent e, std::tuple<Preds...>&& preds)
     counts_t counts{};
     for (; b != e; ++b)
     {
-        for_each_index<N>([&](auto I) mutable {
+        for_each_index_up_to<N>([&](auto I) mutable {
             if (std::get<I>(preds)(*b))
                 ++std::get<I>(counts);
         });
@@ -87,10 +87,13 @@ inline auto count_all(Iter b, Sent e, std::tuple<Preds...>&& preds)
     return counts;
 }
 
-template <class Cont, class Preds>
-inline auto count_all(const Cont& cont, Preds&& preds)
+template <class Cont, class... Preds>
+inline auto count_all(const Cont& cont, std::tuple<Preds...>&& preds)
 {
-    return count_all(begin(cont), end(cont), std::forward<Preds>(preds));
+    using std::begin;
+    using std::end;
+
+    return count_all(begin(cont), end(cont), std::forward<std::tuple<Preds...>>(preds));
 }
 
 using namespace std::chrono_literals;
