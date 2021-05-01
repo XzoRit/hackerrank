@@ -96,20 +96,24 @@ inline auto count_all(const Cont& cont, std::tuple<Preds...>&& preds)
     return count_all(begin(cont), end(cont), std::forward<std::tuple<Preds...>>(preds));
 }
 
-using namespace std::chrono_literals;
-
 inline constexpr bool is_am(const std::chrono::hours& h) noexcept
 {
+    using namespace std::chrono_literals;
+
     return 0h <= h && h <= 11h;
 }
 
 inline constexpr bool is_pm(const std::chrono::hours& h) noexcept
 {
+    using namespace std::chrono_literals;
+
     return 12h <= h && h <= 23h;
 }
 
 inline constexpr std::chrono::hours make12(const std::chrono::hours& h) noexcept
 {
+    using namespace std::chrono_literals;
+
     if (h == 0h)
         return 12h;
     else if (h > 12h)
@@ -119,6 +123,8 @@ inline constexpr std::chrono::hours make12(const std::chrono::hours& h) noexcept
 
 inline constexpr std::chrono::hours make24(const std::chrono::hours& h, bool is_pm) noexcept
 {
+    using namespace std::chrono_literals;
+
     if (!is_pm)
     {
         if (h == 12h)
