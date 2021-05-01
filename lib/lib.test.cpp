@@ -4,7 +4,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <array>
-#include <libs/test/include/boost/test/unit_test_suite.hpp>
 #include <ostream>
 #include <vector>
 
@@ -68,9 +67,10 @@ BOOST_AUTO_TEST_CASE(test_mini_max_sum)
 BOOST_AUTO_TEST_CASE(test_plus_minus)
 {
     BOOST_TEST(plus_minus(std::array<int, 0>{}) == std::make_tuple(0., 0., 0.));
-    BOOST_TEST(plus_minus(std::array{1, 1}) == std::make_tuple(1., 0., 0.));
-    BOOST_TEST(plus_minus(std::array{1, 1, -1, -1}) == std::make_tuple(.5, .5, 0.));
+    BOOST_TEST(plus_minus(std::array{1, 1}) == std::make_tuple(2 / 2., 0., 0.));
+    BOOST_TEST(plus_minus(std::array{1, 1, -1, -1}) == std::make_tuple(2 / 4., 2 / 4., 0.));
     BOOST_TEST(plus_minus(std::array{1, 1, 1, -1, -1, -1, 0, 0, 0}) == std::make_tuple(3 / 9., 3 / 9., 3 / 9.));
+    BOOST_TEST(plus_minus(std::array{1, 0, -4, 2, -3, 3, 0, -2, 4, -1}) == std::make_tuple(4 / 10., 4 / 10., 2 / 10.));
 }
 
 BOOST_AUTO_TEST_CASE(test_time_conversion)
