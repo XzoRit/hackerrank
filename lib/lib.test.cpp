@@ -87,14 +87,12 @@ BOOST_AUTO_TEST_CASE(test_time_conversion)
 
 BOOST_AUTO_TEST_CASE(test_cpp_variadic)
 {
-    BOOST_TEST((reversed_binary_value<0>()) == 0);
-    BOOST_TEST((reversed_binary_value<1>()) == 1);
-    BOOST_TEST((reversed_binary_value<1, 0>()) == 1);
-    BOOST_TEST((reversed_binary_value<1, 0, 0>()) == 1);
-    BOOST_TEST((reversed_binary_value<0, 1>()) == 2);
-    BOOST_TEST((reversed_binary_value<1, 1>()) == 3);
-    BOOST_TEST((reversed_binary_value<0, 0, 1>()) == 4);
-
+    static_assert(reversed_binary_value<0>() == 0);
+    static_assert(reversed_binary_value<1>() == 1);
+    static_assert(reversed_binary_value<1, 0>() == 1);
+    static_assert(reversed_binary_value<1, 0, 0>() == 1);
+    static_assert(reversed_binary_value<0, 1>() == 2);
+    static_assert(reversed_binary_value<1, 1>() == 3);
     static_assert(reversed_binary_value<0, 0, 1>() == 4);
 }
 } // namespace
