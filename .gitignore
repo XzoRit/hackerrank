@@ -9,3 +9,4 @@ clj/hackerrank/*.jar
 clj/hackerrank/*.class
 clj/hackerrank/.lein-*
 clj/hackerrank/.nrepl-port
+/compile_commands.json
